@@ -1,6 +1,6 @@
 import React from "react";
 import { ButtonImg } from "./ButtonStyled";
-export const Button = () => {
+export const Button = ({handleClick}) => {
     return(
-    <ButtonImg>Load more</ButtonImg>)
+    <ButtonImg onClick={handleClick}>Load more</ButtonImg>)
 };

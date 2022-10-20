@@ -1,33 +1,51 @@
 import { Component } from "react"
-import { LoginForm } from "./SearchbarFormik/Searchbar"
 import SearchbarForm from "./Searchbar/Searchbar"
-import Info from "./ImageGallery/ImageGallery"
-import { Modal } from "./Modal/Modal"
+import { ImageGallery } from "./ImageGallery/ImageGallery"
+import { fetchImage } from "./Fetch/Fetch"
+import { Button } from "./Button/Button"
+import { Div } from "./Boxstyled"
+
 
 
 export class App extends Component  {
   state = {
     searchName: '',
-      showModal: false,
-    
-  }
-  hendleFormSubmit = searchName=> {
-  this.setState({searchName});
+    showModal: false,
+    page: 1,
+    isLoading: false,
+    images: [],
   }
 
-      toggleModal = () => {
-        this.setState({showModal: !this.state.showModal})
-    };
+
+  hendleFormSubmit = searchName=> {
+  this.setState({searchName,});
+  }
+  async componentDidUpdate(_, prevState) {
+    const { searchName,page }=this.state
+       if (prevState.searchName !== searchName ||
+         page !== prevState.page) {
+          this.setState({isLoading: true});
+         await fetchImage(page, searchName)
+           .then(images => this.setState({ images: images.hits }))
+           .catch(error => this.setState({ error,isLoading: false, }));
+         
+        }
+   }
+
+    loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+  };
+
   render() {
     return (
-    <div>
+    <Div>
         <SearchbarForm onSubmit={this.hendleFormSubmit} />
        
-        <Info searchName={this.state.searchName} />
-       {/* <button type="button" onClick={this.toggleModal} ></button>
-                   {this.state.showModal && < Modal />} */}
-      
-         </div>
+        <ImageGallery images={this.state.images} />
+         {this.state.images.length > 0 && <Button handleClick={this.loadMore} />}
+         </Div>
     )
   }
 };
