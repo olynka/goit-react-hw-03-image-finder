@@ -3,7 +3,7 @@ import SearchbarForm from "./Searchbar/Searchbar"
 import { ImageGallery } from "./ImageGallery/ImageGallery"
 import { fetchImage } from "./Fetch/Fetch"
 import { Button } from "./Button/Button"
-import { Header } from "./Boxstyled"
+import { toast, ToastContainer } from "react-toastify";
 
 
 
@@ -26,7 +26,16 @@ export class App extends Component  {
          page !== prevState.page) {
           this.setState({isLoading: true});
          await fetchImage(page, searchName)
-           .then(images => this.setState({ images: images.hits }))
+           .then(data => {
+            return (
+              data.hits.length === 0
+                ? toast.error('Oops! We did not find any images matching your request. Please try again.')
+                : this.setState(prevState => ({
+                  images: [...prevState.images, ...data.hits],
+                  isLoading: false,
+                  }))
+                  )
+          })
            .catch(error => this.setState({ error,isLoading: false, }));
          
         }
@@ -42,7 +51,7 @@ export class App extends Component  {
     return (
     <div>
         <SearchbarForm onSubmit={this.hendleFormSubmit} />
-       
+       <ToastContainer autoClose={2000} />
         <ImageGallery images={this.state.images} />
          {this.state.images.length > 0 && <Button handleClick={this.loadMore} />}
          </div>
