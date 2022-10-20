@@ -3,7 +3,7 @@ import SearchbarForm from "./Searchbar/Searchbar"
 import { ImageGallery } from "./ImageGallery/ImageGallery"
 import { fetchImage } from "./Fetch/Fetch"
 import { Button } from "./Button/Button"
-import { Div } from "./Boxstyled"
+import { Header } from "./Boxstyled"
 
 
 
@@ -40,12 +40,12 @@ export class App extends Component  {
 
   render() {
     return (
-    <Div>
+    <div>
         <SearchbarForm onSubmit={this.hendleFormSubmit} />
        
         <ImageGallery images={this.state.images} />
          {this.state.images.length > 0 && <Button handleClick={this.loadMore} />}
-         </Div>
+         </div>
     )
   }
 };

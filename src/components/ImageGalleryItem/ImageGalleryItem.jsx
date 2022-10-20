@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal } from "components/Modal/Modal";
-import { ImageGalleryItemImage,ImageGalleryItems } from "./ImageGalleryItemStyled";
+import { ImageGalleryItemImage, ImageGalleryItems } from "./ImageGalleryItemStyled";
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends React.Component{
   state = {
@@ -36,3 +37,8 @@ toggleModal = () => {
 
 
 
+ImageGalleryItem.propTypes = {
+    image: PropTypes.string.isRequired,
+    imageLarge: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+};
