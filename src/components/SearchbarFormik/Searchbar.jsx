@@ -9,7 +9,7 @@ import {
     SearchFormButtonLabel,
     SearchFormInput
   
-} from 'components/SearchbarFormik/SearchbarStyled';
+} from 'components/Searchbar/SearchbarStyled';
 
 let shema = yup.object().shape({
     query: yup.string().required(),

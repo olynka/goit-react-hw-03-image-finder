@@ -18,7 +18,13 @@ export class App extends Component  {
 
 
   hendleFormSubmit = searchName=> {
-  this.setState({searchName,});
+    this.setState({
+      searchName: searchName,
+      images: [],
+         page: 1,
+    });
+    
+    
   }
   async componentDidUpdate(_, prevState) {
     const { searchName,page }=this.state
