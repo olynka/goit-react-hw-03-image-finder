@@ -14,6 +14,7 @@ export class App extends Component  {
     page: 1,
     isLoading: false,
     images: [],
+    per_page: 12
   }
 
 
@@ -23,6 +24,7 @@ export class App extends Component  {
       images: [],
          page: 1,
     });
+ 
     
     
   }
@@ -45,7 +47,8 @@ export class App extends Component  {
            .catch(error => this.setState({ error,isLoading: false, }));
          
         }
-   }
+  }
+   
 
     loadMore = () => {
     this.setState(prevState => ({
@@ -54,12 +57,15 @@ export class App extends Component  {
   };
 
   render() {
+    const totalPages = Math.ceil(500 / 12);
+    console.log(totalPages);
+  
     return (
     <div>
         <SearchbarForm onSubmit={this.hendleFormSubmit} />
        <ToastContainer autoClose={2000} />
         <ImageGallery images={this.state.images} />
-         {this.state.images.length > 0 && <Button handleClick={this.loadMore} />}
+        {this.state.images.length >=this.state.per_page && <Button handleClick={this.loadMore}/>}
          </div>
     )
   }
